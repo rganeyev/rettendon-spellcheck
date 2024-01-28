@@ -3,6 +3,7 @@ import { FormControl, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useCallback, useState } from "react";
 import "./App.css";
+import useSound from "use-sound";
 
 const words = ["hello", "world"];
 function getRandomWord(): string {
@@ -23,9 +24,22 @@ export default function WordsContainer() {
         window.speechSynthesis.speak(msg);
     }, []);
 
+    const [playCorrect] = useSound(
+        '/correct.mp3'
+    );
+    const [playIncorrect] = useSound(
+        '/sounds/pop-up-off.mp3',
+        { volume: 0.25 }
+    );
+
     const onWordCheck = useCallback(() => {
-        console.log(typedWord, selectedWord, typedWord === selectedWord);
-    }, [typedWord, selectedWord]);
+        const isCorrect = typedWord === selectedWord;
+        if (isCorrect) {
+            playCorrect();
+        } else {
+            playIncorrect();
+        }
+    }, [typedWord, selectedWord, playCorrect, playIncorrect]);
 
     const onFormCheck = useCallback(
         (event: React.FormEvent<HTMLFormElement>) => {
