@@ -3,9 +3,8 @@ import { FormControl, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useCallback, useState } from "react";
 import "./App.css";
-import useSound from "use-sound";
 
-const words = ["hello", "world"];
+const words = ["accident", "accidentally", "actually", "actual", "arrive", "although", "build", "breath", "breathe", "calendar", "early", "extreme", "entrance", "pearl", "various", "reign"];
 function getRandomWord(): string {
     return words[Math.floor(Math.random() * words.length)];
 }
@@ -24,22 +23,15 @@ export default function WordsContainer() {
         window.speechSynthesis.speak(msg);
     }, []);
 
-    const [playCorrect] = useSound(
-        '/correct.mp3'
-    );
-    const [playIncorrect] = useSound(
-        '/sounds/pop-up-off.mp3',
-        { volume: 0.25 }
-    );
-
-    const onWordCheck = useCallback(() => {
+    const onWordCheck = useCallback(async () => {
         const isCorrect = typedWord === selectedWord;
-        if (isCorrect) {
-            playCorrect();
-        } else {
-            playIncorrect();
-        }
-    }, [typedWord, selectedWord, playCorrect, playIncorrect]);
+        const soundName = isCorrect ? "https://mindskills.online/static/audio/audio_for_menar_games/sounds/success.mp3" : "https://mindskills.online/static/audio/audio_for_menar_games/sounds/error.mp3";
+        const audio = new Audio(soundName);
+        await audio.play();
+        alert(isCorrect ? "Correct!" : "Not correct");
+
+        setTypedWord("");
+    }, [typedWord, selectedWord]);
 
     const onFormCheck = useCallback(
         (event: React.FormEvent<HTMLFormElement>) => {
@@ -59,14 +51,17 @@ export default function WordsContainer() {
                 >
                     <FormControl sx={{ width: '15ch' }}>
                         <TextField
-                            id="standard-basic"
+                            id="standard-outlined"
+                            color="warning"
                             label="Write your word here"
                             variant="outlined"
                             required={true}
                             focused={true}
+                            value={typedWord}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                 setTypedWord(event.target.value);
                             }}
+                            sx={{ input: { color: "white" } }}
                         />
                     </FormControl>
                 </form>
