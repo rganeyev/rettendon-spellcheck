@@ -51,6 +51,7 @@ export default function WordsContainer() {
                 >
                     <FormControl sx={{ width: '15ch' }}>
                         <TextField
+                            autoComplete="off"
                             id="standard-outlined"
                             color="warning"
                             label="Write your word here"
