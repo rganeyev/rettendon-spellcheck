@@ -4,33 +4,67 @@ import Button from "@mui/material/Button";
 import { useCallback, useState } from "react";
 import "./App.css";
 
-const words = ["accident", "accidentally", "actually", "actual", "arrive", "although", "build", "breath", "breathe", "calendar", "early", "extreme", "entrance", "pearl", "various", "reign"];
+const words = [
+    "accident",
+    "accidentally",
+    "actually",
+    "actual",
+    "arrive",
+    "although",
+    "build",
+    "breath",
+    "breathe",
+    "calendar",
+    "early",
+    "extreme",
+    "entrance",
+    "pearl",
+    "various",
+    "reign",
+];
+
 function getRandomWord(): string {
     return words[Math.floor(Math.random() * words.length)];
+}
+
+function playWord(word: string): void {
+    var msg = new SpeechSynthesisUtterance();
+    msg.text = word;
+    window.speechSynthesis.speak(msg);
 }
 
 export default function WordsContainer() {
     const [selectedWord, setSelectedWord] = useState<string | null>(null);
     const [typedWord, setTypedWord] = useState<string>("");
+    const [isCorrect, setIsCorrect] = useState(true);
 
-    const onButtonClick = useCallback(() => {
+    const onNextWordClick = useCallback(() => {
         var word = getRandomWord();
         setSelectedWord(word);
         setTypedWord("");
+        setIsCorrect(false);
 
-        var msg = new SpeechSynthesisUtterance();
-        msg.text = word;
-        window.speechSynthesis.speak(msg);
+        playWord(word)
     }, []);
 
+    const onRepeatWord = useCallback(() => {
+        if (selectedWord != null) {
+            playWord(selectedWord);
+        }
+    }, [selectedWord]);
+
     const onWordCheck = useCallback(async () => {
-        const isCorrect = typedWord.toLowerCase().trim() === selectedWord?.toLowerCase();
-        const soundName = isCorrect ? "https://mindskills.online/static/audio/audio_for_menar_games/sounds/success.mp3" : "https://mindskills.online/static/audio/audio_for_menar_games/sounds/error.mp3";
+        const isCorrectLocal =
+            typedWord.toLowerCase().trim() === selectedWord?.toLowerCase();
+        const soundName = isCorrectLocal
+            ? "https://mindskills.online/static/audio/audio_for_menar_games/sounds/success.mp3"
+            : "https://mindskills.online/static/audio/audio_for_menar_games/sounds/error.mp3";
         const audio = new Audio(soundName);
         await audio.play();
-        alert(isCorrect ? "Correct!" : "Not correct");
+        setIsCorrect(isCorrectLocal);
+        alert(isCorrectLocal ? "Correct!" : "Not correct");
 
-        setTypedWord("");
+
     }, [typedWord, selectedWord]);
 
     const onFormCheck = useCallback(
@@ -43,13 +77,9 @@ export default function WordsContainer() {
 
     return (
         <div>
-            {selectedWord != null && (
-                <form
-                    autoComplete="off"
-                    className="elements"
-                    onSubmit={onFormCheck}
-                >
-                    <FormControl sx={{ width: '15ch' }}>
+            {selectedWord != null && !isCorrect && (
+                <form autoComplete="off" className="elements" onSubmit={onFormCheck}>
+                    <FormControl sx={{ width: "15ch" }}>
                         <TextField
                             autoComplete="off"
                             id="standard-outlined"
@@ -68,7 +98,7 @@ export default function WordsContainer() {
                 </form>
             )}
             <div className="buttons">
-                {selectedWord != null && (
+                {selectedWord != null && !isCorrect && (
                     <Button
                         onClick={onWordCheck}
                         variant="contained"
@@ -77,8 +107,23 @@ export default function WordsContainer() {
                     >
                         Check
                     </Button>
+
                 )}
-                <Button onClick={onButtonClick} variant="contained" className="button">
+                {selectedWord != null && !isCorrect && (
+                    <Button
+                        onClick={onRepeatWord}
+                        variant="contained"
+                        color="error"
+                        className="button"
+                    >
+                        Again
+                    </Button>
+                )}
+                <Button
+                    onClick={onNextWordClick}
+                    variant="contained"
+                    className="button"
+                >
                     Next word
                 </Button>
             </div>

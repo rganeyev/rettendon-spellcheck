@@ -25,10 +25,10 @@
   display: flex;
   flex: 1;
   flex-direction: row !important;
-  justify-content: space-evenly !important;
+  justify-content: space-evenly !important;  
 }
 
 .button {
-  padding-left: 10px;
+  margin-right: 10px !important;
   padding-right: 10px;
 }
