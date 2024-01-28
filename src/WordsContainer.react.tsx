@@ -28,7 +28,7 @@ function getRandomWord(): string {
 }
 
 function playWord(word: string): void {
-    var msg = new SpeechSynthesisUtterance();
+    const msg = new SpeechSynthesisUtterance();
     msg.text = word;
     window.speechSynthesis.speak(msg);
 }
@@ -39,7 +39,7 @@ export default function WordsContainer() {
     const [isCorrect, setIsCorrect] = useState(true);
 
     const onNextWordClick = useCallback(() => {
-        var word = getRandomWord();
+        const word = getRandomWord();
         setSelectedWord(word);
         setTypedWord("");
         setIsCorrect(false);
