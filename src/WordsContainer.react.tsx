@@ -24,7 +24,7 @@ export default function WordsContainer() {
     }, []);
 
     const onWordCheck = useCallback(async () => {
-        const isCorrect = typedWord === selectedWord;
+        const isCorrect = typedWord.toLowerCase() === selectedWord?.toLowerCase();
         const soundName = isCorrect ? "https://mindskills.online/static/audio/audio_for_menar_games/sounds/success.mp3" : "https://mindskills.online/static/audio/audio_for_menar_games/sounds/error.mp3";
         const audio = new Audio(soundName);
         await audio.play();
