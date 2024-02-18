@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/rettendon-spellcheck/static/css/main.96d3f57b.css",
-    "main.js": "/rettendon-spellcheck/static/js/main.c6e9c1a2.js",
+    "main.js": "/rettendon-spellcheck/static/js/main.266a492f.js",
     "static/js/787.589042eb.chunk.js": "/rettendon-spellcheck/static/js/787.589042eb.chunk.js",
     "index.html": "/rettendon-spellcheck/index.html",
     "main.96d3f57b.css.map": "/rettendon-spellcheck/static/css/main.96d3f57b.css.map",
-    "main.c6e9c1a2.js.map": "/rettendon-spellcheck/static/js/main.c6e9c1a2.js.map",
+    "main.266a492f.js.map": "/rettendon-spellcheck/static/js/main.266a492f.js.map",
     "787.589042eb.chunk.js.map": "/rettendon-spellcheck/static/js/787.589042eb.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.96d3f57b.css",
-    "static/js/main.c6e9c1a2.js"
+    "static/js/main.266a492f.js"
   ]
 }
