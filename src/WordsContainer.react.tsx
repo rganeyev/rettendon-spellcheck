@@ -5,22 +5,25 @@ import { useCallback, useState } from "react";
 import "./App.css";
 
 const words = [
-    "accident",
-    "accidentally",
-    "actually",
-    "actual",
-    "arrive",
-    "although",
-    "build",
-    "breath",
-    "breathe",
-    "calendar",
-    "early",
-    "extreme",
-    "entrance",
-    "pearl",
-    "various",
-    "reign",
+    "accident", "accidentally", "actually", "actual", "address", "although", "answer", "appear", "arrive",
+    "believe", "bicycle", "breath", "breathe", "build", "busy", "business",
+    "calendar", "caught", "centre", "century", "certain", "circle", "consider", "continue",
+    "decide", "describe", "different", "difficult", "disappear",
+    "early", "earth", "eight", "eighth", "enough", "entrance", "exercise", "experience", "experiment", "extreme",
+    "famous", "favourite", "february", "forward", "fruit", "grammar", "group", "guard", "guide",
+    "heard", "heart", "height", "history",
+    "imagine", "important", "increase", "interest", "island",
+    "knowledge",
+    "learn", "length", "library",
+    "material", "medicine", "mention", "minute",
+    "natural", "naughty", "notice",
+    "occasion", "occasionally", "often", "opposite", "oridnary",
+    "pearl", "particular", "peculiar", "perhaps", "popular", "position", "possess", "possession", "possible", "potatoes", "pressure", "probably", "promise", "purpose",
+    "quarter", "question",
+    "recent", "regular", "reign", "remember",
+    "sentence", "separate", "special", "straight", "strange", "strength", "suppose", "surprise",
+    "therefore", "though", "thought", "through",
+    "various", "weight", "woman", "women"
 ];
 
 function getRandomWord(): string {
