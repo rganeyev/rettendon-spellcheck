@@ -68,8 +68,8 @@ export default function WordsContainer() {
         const isCorrectLocal =
             typedWord.toLowerCase().trim() === selectedWord?.toLowerCase();
         const soundName = isCorrectLocal
-            ? "https://mindskills.online/static/audio/audio_for_menar_games/sounds/success.mp3"
-            : "https://mindskills.online/static/audio/audio_for_menar_games/sounds/error.mp3";
+            ? `${process.env.PUBLIC_URL}/success.mp3`
+            : `${process.env.PUBLIC_URL}/error.mp3`;
         const audio = new Audio(soundName);
         await audio.play();
         setIsCorrect(isCorrectLocal);
