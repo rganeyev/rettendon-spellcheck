@@ -3,55 +3,26 @@ import { FormControl, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useCallback, useState } from "react";
 import "./App.css";
-
-// Year 4 words
-// const words = [
-//     "accident", "accidentally", "actually", "actual", "address", "although", "answer", "appear", "arrive",
-//     "believe", "bicycle", "breath", "breathe", "build", "busy", "business",
-//     "calendar", "caught", "centre", "century", "certain", "circle", "consider", "continue",
-//     "decide", "describe", "different", "difficult", "disappear",
-//     "early", "earth", "eight", "eighth", "enough", "entrance", "exercise", "experience", "experiment", "extreme",
-//     "famous", "favourite", "february", "forward", "fruit", "grammar", "group", "guard", "guide",
-//     "heard", "heart", "height", "history",
-//     "imagine", "important", "increase", "interest", "island",
-//     "knowledge",
-//     "learn", "length", "library",
-//     "material", "medicine", "mention", "minute",
-//     "natural", "naughty", "notice",
-//     "occasion", "occasionally", "often", "opposite", "oridnary",
-//     "pearl", "particular", "peculiar", "perhaps", "popular", "position", "possess", "possession", "possible", "potatoes", "pressure", "probably", "promise", "purpose",
-//     "quarter", "question",
-//     "recent", "regular", "reign", "remember",
-//     "sentence", "separate", "special", "straight", "strange", "strength", "suppose", "surprise",
-//     "therefore", "though", "thought", "through",
-//     "various", "weight", "woman", "women"
-// ];
-
-// Year 1 words
-const words = [
-    "the", "a", "do", "today", "of", "said", "says", "are", "were", "was", "is", "his", "has", "I",
-    "we", "no", "go", "so", "by", "my", "here", "there", "where", "love", "come", "some", "one", "once", "ask",
-    "pull", "full", "he", "me", "she", "house", "our", "friend", "school", "put", "push", "you", "your", "they", "be"
-];
-
-function getRandomWord(): string {
-    return words[Math.floor(Math.random() * words.length)];
-}
+import { NextWordSelector, Year } from "./NextWordSelector";
 
 function playWord(word: string): void {
-    const msg = new SpeechSynthesisUtterance();
-    msg.text = word;
+    const msg = new SpeechSynthesisUtterance(word);
     window.speechSynthesis.speak(msg);
 }
 
-export default function WordsContainer() {
-    const [selectedWord, setSelectedWord] = useState<string | null>(null);
+interface WordsContainerProps {
+    year: Year;
+}
+
+export default function WordsContainer({ year }: WordsContainerProps) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [selector, _setSelector] = useState(new NextWordSelector(year));
+
     const [typedWord, setTypedWord] = useState<string>("");
     const [isCorrect, setIsCorrect] = useState(true);
 
     const onNextWordClick = useCallback(() => {
-        const word = getRandomWord();
-        setSelectedWord(word);
+        const word = selector.nextWord();
         setTypedWord("");
         setIsCorrect(false);
 
@@ -59,14 +30,14 @@ export default function WordsContainer() {
     }, []);
 
     const onRepeatWord = useCallback(() => {
-        if (selectedWord != null) {
-            playWord(selectedWord);
+        if (selector.word != null) {
+            playWord(selector.word);
         }
-    }, [selectedWord]);
+    }, [selector.word]);
 
     const onWordCheck = useCallback(async () => {
         const isCorrectLocal =
-            typedWord.toLowerCase().trim() === selectedWord?.toLowerCase();
+            typedWord.toLowerCase().trim() === selector.word?.toLowerCase();
         const soundName = isCorrectLocal
             ? `${process.env.PUBLIC_URL}/success.mp3`
             : `${process.env.PUBLIC_URL}/error.mp3`;
@@ -76,7 +47,7 @@ export default function WordsContainer() {
         alert(isCorrectLocal ? "Correct!" : "Not correct");
 
 
-    }, [typedWord, selectedWord]);
+    }, [typedWord, selector.word]);
 
     const onFormCheck = useCallback(
         (event: React.FormEvent<HTMLFormElement>) => {
@@ -88,7 +59,7 @@ export default function WordsContainer() {
 
     return (
         <div>
-            {selectedWord != null && !isCorrect && (
+            {selector.word != null && !isCorrect && (
                 <form autoComplete="off" className="elements" onSubmit={onFormCheck}>
                     <FormControl sx={{ width: "15ch" }}>
                         <TextField
@@ -109,7 +80,7 @@ export default function WordsContainer() {
                 </form>
             )}
             <div className="buttons">
-                {selectedWord != null && !isCorrect && (
+                {selector.word != null && !isCorrect && (
                     <Button
                         onClick={onWordCheck}
                         variant="contained"
@@ -120,7 +91,7 @@ export default function WordsContainer() {
                     </Button>
 
                 )}
-                {selectedWord != null && !isCorrect && (
+                {selector.word != null && !isCorrect && (
                     <Button
                         onClick={onRepeatWord}
                         variant="contained"
