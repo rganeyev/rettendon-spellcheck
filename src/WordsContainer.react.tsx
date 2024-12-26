@@ -63,6 +63,7 @@ export default function WordsContainer({ year }: WordsContainerProps) {
                 <form autoComplete="off" className="elements" onSubmit={onFormCheck}>
                     <FormControl sx={{ width: "15ch" }}>
                         <TextField
+                            autoFocus
                             autoComplete="off"
                             id="standard-outlined"
                             color="warning"
