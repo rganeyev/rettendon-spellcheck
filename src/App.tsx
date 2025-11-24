@@ -12,8 +12,8 @@ export default function App() {
           <Routes>
             <Route path="/rettendon-spellcheck/" element={<WordsContainer year={Year.year1} />} />
             <Route path="rettendon-spellcheck/year1" element={<WordsContainer year={Year.year1} />} />
-            {/* <Route path="/rettendon-spellcheck/year2" element={<WordsContainer />} />
-            <Route path="/rettendon-spellcheck/year3" element={<WordsContainer />} /> */}
+            <Route path="/rettendon-spellcheck/year2" element={<WordsContainer year={Year.year2} />} />
+            {/* <Route path="/rettendon-spellcheck/year3" element={<WordsContainer />} /> */}
             <Route path="/rettendon-spellcheck/year4" element={<WordsContainer year={Year.year4} />} />
           </Routes>
         </header>
